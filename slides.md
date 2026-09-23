@@ -9,6 +9,8 @@ drawings:
 transition: slide-left
 layout: intro-image
 image: '/images/cover-talk.png'
+pagination: true
+progress: true
 fonts:
   sans: Roboto
   serif: Roboto Serif
