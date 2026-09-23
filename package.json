@@ -1,8 +1,8 @@
 {
-  "name": "slides-npm-workspaces-in-15-min",
+  "name": "slides-built-in-ai-apis",
   "type": "module",
   "private": true,
-  "version": "0.1.0-rc1",
+  "version": "0.1.0",
   "scripts": {
     "build": "slidev build",
     "dev": "slidev --open",
