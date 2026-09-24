@@ -222,7 +222,7 @@ const response = await session.prompt([{
 }])
 console.log(response)
 
-const audioBuffer = functionThatGetAudioFromMic()
+const audioBuffer = await functionThatGetAudioFromMic()
 const userResponse = await session.prompt([
   {
     role: "user",
