@@ -371,7 +371,9 @@ const schema = {
 }
 
 const result = await session.prompt('Is Monet an impressionist artist?', { responseConstraint: schema })
-// '{"answer": "yes"}'
+
+console.log(JSON.parse(result))
+// { answer: "yes" }
 ```
 
 ````
