@@ -117,17 +117,16 @@ if (available !== 'unavailable') {
 }
 ```
 
-```javascript
-const available = await LanguageModel.availability({
-  expectedInputs: [{type: 'text', languages: ['en']}],
-  expectedOutputs: [{type: 'text', languages: ['en']}],
-});
+````
 
-const session = await LanguageModel.create();
+---
+layout: default
+---
 
-const result = await session.prompt('Write me a short poem!');
-```
+# Prompt API 
+### Multimodale
 
+````md magic-move
 
 ```javascript
 const available = await LanguageModel.availability({
@@ -171,8 +170,8 @@ const available = await LanguageModel.availability(options);
 
 const session = await LanguageModel.create({
   ...options,
-   initialPrompts: [
-    { role: 'system', content: 'You are a art critic' }
+  initialPrompts: [
+    { role: 'system', content: 'You are an art critic' }
   ]
 });
 ```
@@ -191,8 +190,8 @@ const available = await LanguageModel.availability(options);
 
 const session = await LanguageModel.create({
   ...options,
-   initialPrompts: [
-    { role: 'system', content: 'You are a art critic' },
+  initialPrompts: [
+    { role: 'system', content: 'You are an art critic' },
     { role: 'user', content: 'Is impressionism the best movement ever? Answer just yes or no' },
     { role: 'assistant', content: 'No.'}
   ]
@@ -205,8 +204,8 @@ const response = await session.prompt('Is Monet an impressionist artist? Answer 
 ```javascript
 const session = await LanguageModel.create({
   ...options,
-   initialPrompts: [
-    { role: 'system', content: 'You are a art critic' },
+  initialPrompts: [
+    { role: 'system', content: 'You are an art critic' },
     { role: 'user', content: 'Is impressionism the best movement ever? Answer just yes or no' },
     { role: 'assistant', content: 'No.'}
   ]
@@ -217,7 +216,7 @@ const response = await session.prompt([{
   content: [
     {
       type: 'text',
-      value: `Express a art critic about this image`,
+      value: `Write an art critique of this image`,
     },
     { type: 'image', value: fileUpload.files[0] },
   ],
@@ -227,8 +226,8 @@ const response = await session.prompt([{
 ```javascript
 const session = await LanguageModel.create({
   ...options,
-   initialPrompts: [
-    { role: 'system', content: 'You are a art critic' },
+  initialPrompts: [
+    { role: 'system', content: 'You are an art critic' },
     { role: 'user', content: 'Is impressionism the best movement ever? Answer just yes or no' },
     { role: 'assistant', content: 'No.'}
   ]
@@ -241,7 +240,7 @@ const response = await session.prompt([{
   content: [
     {
       type: 'text',
-      value: `Express a art critic about this image`,
+      value: `Write an art critique of this image`,
     },
     { type: 'image', value: canvas },
   ],
@@ -251,8 +250,8 @@ const response = await session.prompt([{
 ```javascript
 const session = await LanguageModel.create({
   ...options,
-   initialPrompts: [
-    { role: 'system', content: 'You are a art critic' },
+  initialPrompts: [
+    { role: 'system', content: 'You are an art critic' },
     { role: 'user', content: 'Is impressionism the best movement ever? Answer just yes or no' },
     { role: 'assistant', content: 'No.'}
   ]
@@ -265,7 +264,7 @@ const response = await session.prompt([{
   content: [
     {
       type: 'text',
-      value: `Express a art critic about this image`,
+      value: `Write an art critique of this image`,
     },
     { type: 'image', value: image },
   ],
@@ -273,20 +272,46 @@ const response = await session.prompt([{
 ```
 
 ```javascript
+const session = await LanguageModel.create({
+  ...options,
+  initialPrompts: [
+    { role: 'system', content: 'You are an art critic' },
+    { role: 'user', content: 'Is impressionism the best movement ever? Answer just yes or no' },
+    { role: 'assistant', content: 'No.'}
+  ]
+});
+
 const image = await (await fetch("impressionism-sol-levant.jpeg")).blob();
+const canvas = document.querySelector("canvas");
+
 const response = await session.prompt([{
   role: 'user',
   content: [
     {
       type: 'text',
-      value: `Express a art critic about this image`,
+      value: `Critique how well the second image matches the first`,
     },
     { type: 'image', value: image },
+    { type: 'image', value: canvas },
   ],
 }])
-console.log(response)
+```
 
-const audioBuffer = await functionThatGetAudioFromMic()
+```javascript
+const response = await session.prompt([{
+  role: 'user',
+  content: [
+    {
+      type: 'text',
+      value: `Critique how well the second image matches the first`,
+    },
+    { type: 'image', value: image },
+    { type: 'image', value: canvas },
+  ],
+}])
+
+// audio input requires GPU
+const audioBuffer = await captureMicrophoneInput({ seconds: 10 });
 const userResponse = await session.prompt([
   {
     role: "user",
@@ -296,6 +321,32 @@ const userResponse = await session.prompt([
     ],
   }
 ]);
+```
+
+```javascript
+const session = await LanguageModel.create({
+  ...options,
+  initialPrompts: [
+    { role: 'system', content: 'You are an art critic' },
+  ]
+});
+
+fileUpload.onchange = async () => {
+  await session.append([{
+    role: 'user',
+    content: [
+      {
+        type: 'text',
+        value: `Here's one painting. Notes: ${notes.value}`,
+      },
+      { type: 'image', value: fileUpload.files[0] },
+    ],
+  }]);
+};
+
+analyzeButton.onclick = async () => {
+  result.textContent = await session.prompt(question.value);
+};
 ```
 
 ````
