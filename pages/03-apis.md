@@ -100,7 +100,7 @@ layout: default
 
 <v-clicks>
 
-- ```.availabile()```
+- ```.availability()```
 
 - ```.create()```
 
