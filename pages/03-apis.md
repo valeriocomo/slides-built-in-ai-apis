@@ -121,7 +121,9 @@ layout: default
 
 <v-clicks>
 
-- Non è supportate nei Web Worker
+- User activation
+
+- Non è supportata nei Web Worker
 
 - top-level window (no cross-origin)
 
