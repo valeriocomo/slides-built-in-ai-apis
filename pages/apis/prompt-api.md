@@ -438,6 +438,84 @@ s2.destroy();
 
 ````
 
+<!--
+Il modello viene scaricato dalla memoria quando non ci sono sessioni attive:
+conviene tenere viva una sessione vuota, così il modello resta pronto all'uso.
+-->
+
+---
+layout: default
+---
+
+# Prompt API
+### Context Window
+
+````md magic-move
+
+```javascript
+const session = await LanguageModel.create({
+  initialPrompts: [{
+    role: 'system',
+    content: 'You are a helpful personal-finance assistant.'
+  }]
+});
+
+console.log(`${session.contextUsage}/${session.contextWindow}`);
+```
+
+```javascript
+const session = await LanguageModel.create({ initialPrompts });
+
+console.log(`${session.contextUsage}/${session.contextWindow}`);
+
+session.addEventListener('contextoverflow', () => {
+  // the oldest prompt/response pairs are dropped,
+  // initialPrompts are never removed
+  showWarning('Context window is full!');
+});
+```
+
+```javascript
+const session = await LanguageModel.create({ initialPrompts });
+
+session.addEventListener('contextoverflow', () => {
+  // the oldest prompt/response pairs are dropped,
+  // initialPrompts are never removed
+  showWarning('Context window is full!');
+});
+
+try {
+  await session.prompt(veryLongPrompt);
+} catch (e) {
+  // the prompt doesn't fit even without the history
+  if (e.name === 'QuotaExceededError') {
+    console.log(e.requested, e.contextWindow);
+  }
+}
+```
+
+```javascript
+const session = await LanguageModel.create({ initialPrompts });
+
+// signal is accepted by create() and clone() too
+const controller = new AbortController();
+stopButton.onclick = () => controller.abort();
+
+try {
+  const stream = session.promptStreaming('Plan my monthly budget', {
+    signal: controller.signal,
+  });
+  for await (const chunk of stream) {
+    output.append(chunk);
+  }
+} catch (e) {
+  // the aborted prompt/response pair is removed from the session
+  if (e.name !== 'AbortError') throw e;
+}
+```
+
+````
+
 ---
 layout: default
 ---
