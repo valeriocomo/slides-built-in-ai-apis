@@ -108,7 +108,7 @@ const available = await LanguageModel.availability(options);
 const session = await LanguageModel.create({
   ...options,
    initialPrompts: [
-    { role: 'system', content: 'You are a fine-art critique' }
+    { role: 'system', content: 'You are a art critic' }
   ]
 });
 ```
@@ -128,7 +128,7 @@ const available = await LanguageModel.availability(options);
 const session = await LanguageModel.create({
   ...options,
    initialPrompts: [
-    { role: 'system', content: 'You are a fine-art critique' },
+    { role: 'system', content: 'You are a art critic' },
     { role: 'user', content: 'Is impressionism the best movement ever? Answer just yes or no' },
     { role: 'assistant', content: 'No.'}
   ]
@@ -142,7 +142,7 @@ const response = await session.prompt('Is Monet an impressionist artist? Answer 
 const session = await LanguageModel.create({
   ...options,
    initialPrompts: [
-    { role: 'system', content: 'You are a fine-art critique' },
+    { role: 'system', content: 'You are a art critic' },
     { role: 'user', content: 'Is impressionism the best movement ever? Answer just yes or no' },
     { role: 'assistant', content: 'No.'}
   ]
@@ -153,7 +153,7 @@ const response = await session.prompt([{
   content: [
     {
       type: 'text',
-      value: `Express a fine-art critique about this image`,
+      value: `Express a art critic about this image`,
     },
     { type: 'image', value: fileUpload.files[0] },
   ],
@@ -164,7 +164,7 @@ const response = await session.prompt([{
 const session = await LanguageModel.create({
   ...options,
    initialPrompts: [
-    { role: 'system', content: 'You are a fine-art critique' },
+    { role: 'system', content: 'You are a art critic' },
     { role: 'user', content: 'Is impressionism the best movement ever? Answer just yes or no' },
     { role: 'assistant', content: 'No.'}
   ]
@@ -177,7 +177,7 @@ const response = await session.prompt([{
   content: [
     {
       type: 'text',
-      value: `Express a fine-art critique about this image`,
+      value: `Express a art critic about this image`,
     },
     { type: 'image', value: canvas },
   ],
@@ -188,7 +188,7 @@ const response = await session.prompt([{
 const session = await LanguageModel.create({
   ...options,
    initialPrompts: [
-    { role: 'system', content: 'You are a fine-art critique' },
+    { role: 'system', content: 'You are a art critic' },
     { role: 'user', content: 'Is impressionism the best movement ever? Answer just yes or no' },
     { role: 'assistant', content: 'No.'}
   ]
@@ -201,7 +201,7 @@ const response = await session.prompt([{
   content: [
     {
       type: 'text',
-      value: `Express a fine-art critique about this image`,
+      value: `Express a art critic about this image`,
     },
     { type: 'image', value: image },
   ],
@@ -215,7 +215,7 @@ const response = await session.prompt([{
   content: [
     {
       type: 'text',
-      value: `Express a fine-art critique about this image`,
+      value: `Express a art critic about this image`,
     },
     { type: 'image', value: image },
   ],
@@ -336,7 +336,7 @@ layout: default
 const session = await LanguageModel.create({
   ...options,
    initialPrompts: [
-    { role: 'system', content: 'You are a fine-art critique. Answer just yes or no to my prompt' }
+    { role: 'system', content: 'You are a art critic. Answer just yes or no to my prompt' }
   ]
 });
 ```
@@ -345,7 +345,7 @@ const session = await LanguageModel.create({
 const session = await LanguageModel.create({
   ...options,
    initialPrompts: [
-    { role: 'system', content: 'You are a fine-art critique. Answer just yes or no to my prompt' }
+    { role: 'system', content: 'You are a art critic. Answer just yes or no to my prompt' }
   ]
 });
 
