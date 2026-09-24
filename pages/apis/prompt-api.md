@@ -65,6 +65,64 @@ const available = await LanguageModel.availability({
   expectedOutputs: [{type: 'text', languages: ['en']}],
 });
 
+if (available !== 'unavailable') {
+  const session = await LanguageModel.create();
+
+  const result = await session.prompt('Write me a short poem!');
+  console.log(result);
+}
+```
+
+```javascript
+const available = await LanguageModel.availability({
+  expectedInputs: [{type: 'text', languages: ['en']}],
+  expectedOutputs: [{type: 'text', languages: ['en']}],
+});
+
+if (available !== 'unavailable') {
+  // user activation required to trigger the download
+  const session = await LanguageModel.create({
+    monitor(m) {
+      m.addEventListener('downloadprogress', (e) => {
+        console.log(`Downloaded ${e.loaded * 100}%`);
+      });
+    },
+  });
+
+  const result = await session.prompt('Write me a short poem!');
+  console.log(result);
+}
+```
+
+```javascript
+const available = await LanguageModel.availability({
+  expectedInputs: [{type: 'text', languages: ['en']}],
+  expectedOutputs: [{type: 'text', languages: ['en']}],
+});
+
+if (available !== 'unavailable') {
+  // user activation required to trigger the download
+  const session = await LanguageModel.create({
+    monitor(m) {
+      m.addEventListener('downloadprogress', (e) => {
+        console.log(`Downloaded ${e.loaded * 100}%`);
+      });
+    },
+  });
+
+  const stream = session.promptStreaming('Write me an extra-long poem!');
+  for await (const chunk of stream) {
+    console.log(chunk);
+  }
+}
+```
+
+```javascript
+const available = await LanguageModel.availability({
+  expectedInputs: [{type: 'text', languages: ['en']}],
+  expectedOutputs: [{type: 'text', languages: ['en']}],
+});
+
 const session = await LanguageModel.create();
 
 const result = await session.prompt('Write me a short poem!');
