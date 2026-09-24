@@ -278,8 +278,8 @@ const languageModel = await LanguageModel.create({
 const s1 = await languageModel.clone();
 const s2 = await languageModel.clone();
 
-const r1 = s1.prompt('Is 1-ETF strategy a good strategy?')
-const r2 = s2.prompt('Talk me about the all-weather portfolio')
+const r1 = await s1.prompt('Is 1-ETF strategy a good strategy?')
+const r2 = await s2.prompt('Talk me about the all-weather portfolio')
 ```
 
 ```javascript
@@ -293,8 +293,8 @@ const languageModel = await LanguageModel.create({
 const s1 = await languageModel.clone();
 const s2 = await languageModel.clone();
 
-const r1 = s1.prompt('Is 1-ETF strategy a good strategy?')
-const r2 = s2.prompt('Talk me about the all-weather portfolio')
+const r1 = await s1.prompt('Is 1-ETF strategy a good strategy?')
+const r2 = await s2.prompt('Talk me about the all-weather portfolio')
 // contextWindow - contextUsage
 s1.contextUsage // 2471
 s2.contextUsage // 1484
@@ -311,8 +311,8 @@ const languageModel = await LanguageModel.create({
 const s1 = await languageModel.clone();
 const s2 = await languageModel.clone();
 
-const r1 = s1.prompt('Is 1-ETF strategy a good strategy?')
-const r2 = s2.prompt('Talk me about the all-weather portfolio')
+const r1 = await s1.prompt('Is 1-ETF strategy a good strategy?')
+const r2 = await s2.prompt('Talk me about the all-weather portfolio')
 // contextWindow - contextUsage
 s1.contextUsage // 2471
 s2.contextUsage // 1484
