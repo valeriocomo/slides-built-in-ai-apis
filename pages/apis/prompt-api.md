@@ -450,8 +450,8 @@ layout: default
 ```javascript
 const session = await LanguageModel.create({
   ...options,
-   initialPrompts: [
-    { role: 'system', content: 'You are a art critic. Answer just yes or no to my prompt' }
+  initialPrompts: [
+    { role: 'system', content: 'You are an art critic. Answer just yes or no to my prompt' }
   ]
 });
 ```
@@ -459,8 +459,8 @@ const session = await LanguageModel.create({
 ```javascript
 const session = await LanguageModel.create({
   ...options,
-   initialPrompts: [
-    { role: 'system', content: 'You are a art critic. Answer just yes or no to my prompt' }
+  initialPrompts: [
+    { role: 'system', content: 'You are an art critic. Answer just yes or no to my prompt' }
   ]
 });
 
@@ -485,10 +485,78 @@ const schema = {
   "additionalProperties": false
 }
 
-const result = await session.prompt('Is Monet an impressionist artist?', { responseConstraint: schema })
+const result = await session.prompt('Is Monet an impressionist artist?', {
+  responseConstraint: schema,
+});
 
 console.log(JSON.parse(result))
 // { answer: "yes" }
+```
+
+```javascript
+const schema = { /* YesNoResponse */ };
+const question = 'Is Monet an impressionist artist?';
+
+// the schema is sent to the model: it uses the context window
+const tokens = await session.measureContextUsage(question, {
+  responseConstraint: schema,
+});
+
+const result = await session.prompt(question, {
+  responseConstraint: schema,
+});
+```
+
+```javascript
+const schema = { /* YesNoResponse */ };
+
+// the schema is NOT sent: describe the format in the prompt
+const result = await session.prompt(`
+  Is Monet an impressionist artist?
+  Only output a JSON object { answer } whose value is "yes" or "no".
+`, {
+  responseConstraint: schema,
+  omitResponseConstraintInput: true,
+});
+```
+
+```javascript
+const schema = { /* YesNoResponse */ };
+
+const stream = session.promptStreaming('Is Monet an impressionist artist?', {
+  responseConstraint: schema,
+});
+
+let result = '';
+for await (const chunk of stream) {
+  result += chunk;
+}
+
+console.log(JSON.parse(result))
+// { answer: "yes" }
+```
+
+```javascript
+const result = await session.prompt('Is Monet an impressionist artist?', {
+  responseConstraint: /^(yes|no)$/,
+});
+
+console.log(result)
+// "yes"
+```
+
+```javascript
+const result = await session.prompt([
+  {
+    role: 'user',
+    content: 'Describe Monet as a TOML artist sheet',
+  },
+  {
+    role: 'assistant',
+    content: '```toml\n',
+    prefix: true,
+  },
+]);
 ```
 
 ````
