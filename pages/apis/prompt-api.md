@@ -9,7 +9,7 @@ layout: default
 ---
 
 # Prompt API 
-### Setup
+### Disponibilità
 
 Abilitare i seguenti flag (< Chrome 148)
 
