@@ -349,7 +349,7 @@ const session = await LanguageModel.create({
   ]
 });
 
-const result = await session.prompt('Is Monet an impressionist artist ever?')
+const result = await session.prompt('Is Monet an impressionist artist?')
 // "Yes."
 ```
 
@@ -370,7 +370,7 @@ const schema = {
   "additionalProperties": false
 }
 
-const result = await session.prompt('Is Monet an impressionist artist ever?', { responseConstraint: schema })
+const result = await session.prompt('Is Monet an impressionist artist?', { responseConstraint: schema })
 // '{"answer": "yes"}'
 ```
 
