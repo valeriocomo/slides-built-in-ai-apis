@@ -10,6 +10,7 @@
 - https://developer.chrome.com/docs/ai/translator-api
 - https://developer.chrome.com/docs/ai/prompt-api
 - https://developer.chrome.com/docs/ai/session-management
+- https://developer.chrome.com/docs/ai/session-compacting
 - https://developer.chrome.com/docs/ai/structured-output-for-prompt-api
 - https://developer.chrome.com/docs/ai/writer-api
 - https://developer.chrome.com/docs/ai/rewriter-api
