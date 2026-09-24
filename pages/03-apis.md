@@ -81,11 +81,13 @@ backgroundSize: contain
 # Anatomia delle API
 ## Requisiti hardware & software
 
-- GPU (+4GB RAM)
+- GPU (+4GB VRAM)
 
 - CPU (+16GB RAM & 4 CPU)
 
 - Linux,Windows,MacOS,ChromeOS
+
+- GPU per feature audio 
 
 - No Android & iOS
 
