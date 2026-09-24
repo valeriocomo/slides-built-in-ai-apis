@@ -149,7 +149,7 @@ const session = await LanguageModel.create({
 });
 
 const response = await session.prompt([{
-  role: 'user'
+  role: 'user',
   content: [
     {
       type: 'text',
@@ -173,7 +173,7 @@ const session = await LanguageModel.create({
 const canvas = document.querySelector("canvas");
 
 const response = await session.prompt([{
-  role: 'user'
+  role: 'user',
   content: [
     {
       type: 'text',
@@ -197,7 +197,7 @@ const session = await LanguageModel.create({
 const image = await (await fetch("impressionism-sol-levant.jpeg")).blob();
 
 const response = await session.prompt([{
-  role: 'user'
+  role: 'user',
   content: [
     {
       type: 'text',
@@ -211,7 +211,7 @@ const response = await session.prompt([{
 ```javascript
 const image = await (await fetch("impressionism-sol-levant.jpeg")).blob();
 const response = await session.prompt([{
-  role: 'user'
+  role: 'user',
   content: [
     {
       type: 'text',
