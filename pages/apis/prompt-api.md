@@ -583,6 +583,91 @@ layout: default
 ---
 
 # Prompt API
+### Session Compacting
+
+<div class="grid grid-cols-5 gap-6 mt-2">
+<div class="col-span-2 flex flex-col gap-1 text-sm">
+  <div class="self-start px-3 py-1 rounded-full border border-dashed border-gray-400 font-mono">contextoverflow</div>
+  <div class="pl-6 opacity-50">↓</div>
+  <div class="px-3 py-2 rounded border border-gray-400/50 bg-gray-400/10">
+    <div class="font-bold">1 · Riassumi la storia</div>
+    <div class="opacity-70">Language Detector + Summarizer, un messaggio alla volta</div>
+  </div>
+  <div class="pl-6 opacity-50">↓</div>
+  <div class="px-3 py-2 rounded border border-gray-400/50 bg-gray-400/10">
+    <div class="font-bold">2 · <span class="font-mono">session.destroy()</span></div>
+    <div class="opacity-70">tieni una copia <code>fullHistory</code> per il recovery</div>
+  </div>
+  <div class="pl-6 opacity-50">↓</div>
+  <div class="px-3 py-2 rounded border border-gray-400/50 bg-gray-400/10">
+    <div class="font-bold">3 · <span class="font-mono">LanguageModel.create()</span></div>
+    <div class="opacity-70">i riassunti come <code>initialPrompts</code>: mai rimossi, ma <code>QuotaExceededError</code> se non entrano</div>
+  </div>
+</div>
+<div class="col-span-3">
+
+````md magic-move
+
+```javascript
+session.addEventListener('contextoverflow', compact);
+
+async function compact() {
+  const compacted = [];
+  for (const msg of history) {
+    // 1. summarize each message
+  }
+  // 2. destroy the old session
+  // 3. create a new one from the summaries
+}
+```
+
+```javascript
+session.addEventListener('contextoverflow', compact);
+
+async function compact() {
+  const compacted = [];
+  for (const msg of history) {
+    // using LanguageDetector with confidence ≥ 0.7, else navigator.language
+    const lang = await detectLanguage(msg.content);
+    // cache one summarizer per language
+    const summarizer = await Summarizer.create({
+      type: 'tldr', length: 'short', preference: 'speed',
+      expectedInputLanguages: [lang], outputLanguage: lang,
+    });
+    const summary = await summarizer.summarize(msg.content);
+    compacted.push({ role: msg.role, content: summary });
+  }
+  // 2. destroy the old session
+  // 3. create a new one from the summaries
+}
+```
+
+```javascript
+session.addEventListener('contextoverflow', compact);
+
+async function compact() {
+  const compacted = await summarizeHistory(history);
+
+  session.destroy();
+
+  session = await LanguageModel.create({
+    // never evicted, but they must fit the context window
+    initialPrompts: compacted,
+  });
+  session.addEventListener('contextoverflow', compact);
+}
+```
+
+````
+
+</div>
+</div>
+
+---
+layout: default
+---
+
+# Prompt API
 ### Structured Output
 
 ````md magic-move
