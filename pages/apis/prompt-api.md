@@ -356,6 +356,68 @@ layout: default
 ---
 
 # Prompt API
+### Sampling
+
+<div class="grid grid-cols-3 gap-6">
+<div>
+
+**Web**
+
+- nessun parametro di sampling
+- effetto diverso su modelli diversi
+
+```javascript
+// no sampling parameters
+const session =
+  await LanguageModel.create();
+```
+
+</div>
+<div v-click>
+
+**Web + Origin Trial**
+
+- `samplingMode`: 7 valori
+- da `most-predictable` a `most-creative`
+
+```javascript
+const session =
+  await LanguageModel.create({
+    samplingMode: 'creative',
+  });
+
+session.samplingMode;
+// 'creative'
+```
+
+</div>
+<div v-click>
+
+**Chrome Extensions**
+
+- `temperature` + `topK`
+- entrambi o nessuno
+
+```javascript
+await LanguageModel.params();
+// { defaultTopK: 3, maxTopK: 128,
+//   defaultTemperature: 1,
+//   maxTemperature: 2 }
+
+const session =
+  await LanguageModel.create({
+    temperature: 1.2, topK: 3,
+  });
+```
+
+</div>
+</div>
+
+---
+layout: default
+---
+
+# Prompt API
 ### Session Mgmt
 
 
