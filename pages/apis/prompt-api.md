@@ -11,7 +11,7 @@ layout: default
 # Prompt API 
 ### Setup
 
-Abilitare i seguenti flag
+Abilitare i seguenti flag (< Chrome 148)
 
 ```text
 chrome://flags/#optimization-guide-on-device-model
@@ -19,6 +19,12 @@ chrome://flags/#optimization-guide-on-device-model
 
 ```text
 chrome://flags/#prompt-api-for-gemini-nano-multimodal-input
+```
+
+Abilitare Gemma 4 (sperimentale)
+
+```text
+chrome://flags/#gemma4-for-built-in-ai
 ```
 
 
