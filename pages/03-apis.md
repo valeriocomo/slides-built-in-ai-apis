@@ -38,13 +38,22 @@ layout: default
 | **Proofreader API** | Correggi grammatica e stile | Proofreader API |
 
 ---
-layout: image
-image: 'images/built-in-ai-apis-status.png'
-backgroundSize: contain
+layout: default
 ---
 
 # Anatomia delle API
 ## Stato delle API
+
+| **API** | **Web** | **Extensions** |
+|---|---|---|
+| **Translator API** | Chrome 138 | Chrome 138 |
+| **Language Detector API** | Chrome 138 | Chrome 138 |
+| **Summarizer API** | Chrome 138 | Chrome 138 |
+| **Writer API** | Developer trial | Developer trial |
+| **Rewriter API** | Developer trial | Developer trial |
+| **Prompt API** | Chrome 148 | Chrome 138 |
+| | Origin trial for sampling parameters | Chrome 148 |
+| **Proofreader API** | Developer trial | Developer trial |
 
 ---
 layout: default
@@ -53,15 +62,15 @@ layout: default
 # Anatomia delle API
 ## Modelli
 
-| API                    | Model Type      | Modality    |
-|------------------------|-----------------|-------------|
-| Translator API         | Expert Model    | Text → Text |
-| Language Detector API  | Expert Model    | Text → Text |
-| Summarizer API         | Language Model  | Text → Text |
-| Writer API             | Language Model  | Text → Text |
-| Rewriter API           | Language Model  | Text → Text |
-| Prompt API             | Language Model  | Multimodal  |
-| Proofreader API        | Language Model  | Text → Text |
+| **API**                    | **Model Type**  | **Modality**  |
+|----------------------------|-----------------|-------------|
+| **Translator API**         | Expert Model    | Text → Text |
+| **Language Detector API**  | Expert Model    | Text → Text |
+| **Summarizer API**         | Language Model  | Text → Text |
+| **Writer API**             | Language Model  | Text → Text |
+| **Rewriter API**           | Language Model  | Text → Text |
+| **Prompt API**             | Language Model  | Multimodal  |
+| **Proofreader API**        | Language Model  | Text → Text |
 
 ---
 layout: image-right
@@ -72,11 +81,13 @@ backgroundSize: contain
 # Anatomia delle API
 ## Requisiti hardware & software
 
-- GPU (+4GB RAM)
+- GPU (+4GB VRAM)
 
 - CPU (+16GB RAM & 4 CPU)
 
 - Linux,Windows,MacOS,ChromeOS
+
+- GPU per feature audio 
 
 - No Android & iOS
 
@@ -89,7 +100,7 @@ layout: default
 
 <v-clicks>
 
-- ```.availabile()```
+- ```.availability()```
 
 - ```.create()```
 
@@ -110,7 +121,9 @@ layout: default
 
 <v-clicks>
 
-- Non è supportate nei Web Worker
+- User activation
+
+- Non è supportata nei Web Worker
 
 - top-level window (no cross-origin)
 

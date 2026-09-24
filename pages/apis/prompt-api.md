@@ -9,9 +9,9 @@ layout: default
 ---
 
 # Prompt API 
-### Setup
+### Disponibilità
 
-Abilitare i seguenti flag
+Abilitare i seguenti flag (< Chrome 148)
 
 ```text
 chrome://flags/#optimization-guide-on-device-model
@@ -19,6 +19,12 @@ chrome://flags/#optimization-guide-on-device-model
 
 ```text
 chrome://flags/#prompt-api-for-gemini-nano-multimodal-input
+```
+
+Abilitare Gemma 4 (sperimentale)
+
+```text
+chrome://flags/#gemma4-for-built-in-ai
 ```
 
 
@@ -59,11 +65,68 @@ const available = await LanguageModel.availability({
   expectedOutputs: [{type: 'text', languages: ['en']}],
 });
 
-const session = await LanguageModel.create();
+if (available !== 'unavailable') {
+  const session = await LanguageModel.create();
 
-const result = await session.prompt('Write me a short poem!');
+  const result = await session.prompt('Write me a short poem!');
+  console.log(result);
+}
 ```
 
+```javascript
+const available = await LanguageModel.availability({
+  expectedInputs: [{type: 'text', languages: ['en']}],
+  expectedOutputs: [{type: 'text', languages: ['en']}],
+});
+
+if (available !== 'unavailable') {
+  // user activation required to trigger the download
+  const session = await LanguageModel.create({
+    monitor(m) {
+      m.addEventListener('downloadprogress', (e) => {
+        console.log(`Downloaded ${e.loaded * 100}%`);
+      });
+    },
+  });
+
+  const result = await session.prompt('Write me a short poem!');
+  console.log(result);
+}
+```
+
+```javascript
+const available = await LanguageModel.availability({
+  expectedInputs: [{type: 'text', languages: ['en']}],
+  expectedOutputs: [{type: 'text', languages: ['en']}],
+});
+
+if (available !== 'unavailable') {
+  // user activation required to trigger the download
+  const session = await LanguageModel.create({
+    monitor(m) {
+      m.addEventListener('downloadprogress', (e) => {
+        console.log(`Downloaded ${e.loaded * 100}%`);
+      });
+    },
+  });
+
+  const stream = session.promptStreaming('Write me an extra-long poem!');
+  for await (const chunk of stream) {
+    console.log(chunk);
+  }
+}
+```
+
+````
+
+---
+layout: default
+---
+
+# Prompt API 
+### Multimodale
+
+````md magic-move
 
 ```javascript
 const available = await LanguageModel.availability({
@@ -107,8 +170,8 @@ const available = await LanguageModel.availability(options);
 
 const session = await LanguageModel.create({
   ...options,
-   initialPrompts: [
-    { role: 'system', content: 'You are a fine-art critique' }
+  initialPrompts: [
+    { role: 'system', content: 'You are an art critic' }
   ]
 });
 ```
@@ -127,8 +190,8 @@ const available = await LanguageModel.availability(options);
 
 const session = await LanguageModel.create({
   ...options,
-   initialPrompts: [
-    { role: 'system', content: 'You are a fine-art critique' },
+  initialPrompts: [
+    { role: 'system', content: 'You are an art critic' },
     { role: 'user', content: 'Is impressionism the best movement ever? Answer just yes or no' },
     { role: 'assistant', content: 'No.'}
   ]
@@ -141,19 +204,19 @@ const response = await session.prompt('Is Monet an impressionist artist? Answer 
 ```javascript
 const session = await LanguageModel.create({
   ...options,
-   initialPrompts: [
-    { role: 'system', content: 'You are a fine-art critique' },
+  initialPrompts: [
+    { role: 'system', content: 'You are an art critic' },
     { role: 'user', content: 'Is impressionism the best movement ever? Answer just yes or no' },
     { role: 'assistant', content: 'No.'}
   ]
 });
 
 const response = await session.prompt([{
-  role: 'user'
+  role: 'user',
   content: [
     {
       type: 'text',
-      value: `Express a fine-art critique about this image`,
+      value: `Write an art critique of this image`,
     },
     { type: 'image', value: fileUpload.files[0] },
   ],
@@ -163,8 +226,8 @@ const response = await session.prompt([{
 ```javascript
 const session = await LanguageModel.create({
   ...options,
-   initialPrompts: [
-    { role: 'system', content: 'You are a fine-art critique' },
+  initialPrompts: [
+    { role: 'system', content: 'You are an art critic' },
     { role: 'user', content: 'Is impressionism the best movement ever? Answer just yes or no' },
     { role: 'assistant', content: 'No.'}
   ]
@@ -173,11 +236,11 @@ const session = await LanguageModel.create({
 const canvas = document.querySelector("canvas");
 
 const response = await session.prompt([{
-  role: 'user'
+  role: 'user',
   content: [
     {
       type: 'text',
-      value: `Express a fine-art critique about this image`,
+      value: `Write an art critique of this image`,
     },
     { type: 'image', value: canvas },
   ],
@@ -187,8 +250,8 @@ const response = await session.prompt([{
 ```javascript
 const session = await LanguageModel.create({
   ...options,
-   initialPrompts: [
-    { role: 'system', content: 'You are a fine-art critique' },
+  initialPrompts: [
+    { role: 'system', content: 'You are an art critic' },
     { role: 'user', content: 'Is impressionism the best movement ever? Answer just yes or no' },
     { role: 'assistant', content: 'No.'}
   ]
@@ -197,11 +260,11 @@ const session = await LanguageModel.create({
 const image = await (await fetch("impressionism-sol-levant.jpeg")).blob();
 
 const response = await session.prompt([{
-  role: 'user'
+  role: 'user',
   content: [
     {
       type: 'text',
-      value: `Express a fine-art critique about this image`,
+      value: `Write an art critique of this image`,
     },
     { type: 'image', value: image },
   ],
@@ -209,20 +272,46 @@ const response = await session.prompt([{
 ```
 
 ```javascript
+const session = await LanguageModel.create({
+  ...options,
+  initialPrompts: [
+    { role: 'system', content: 'You are an art critic' },
+    { role: 'user', content: 'Is impressionism the best movement ever? Answer just yes or no' },
+    { role: 'assistant', content: 'No.'}
+  ]
+});
+
 const image = await (await fetch("impressionism-sol-levant.jpeg")).blob();
+const canvas = document.querySelector("canvas");
+
 const response = await session.prompt([{
-  role: 'user'
+  role: 'user',
   content: [
     {
       type: 'text',
-      value: `Express a fine-art critique about this image`,
+      value: `Critique how well the second image matches the first`,
     },
     { type: 'image', value: image },
+    { type: 'image', value: canvas },
   ],
 }])
-console.log(response)
+```
 
-const audioBuffer = functionThatGetAudioFromMic()
+```javascript
+const response = await session.prompt([{
+  role: 'user',
+  content: [
+    {
+      type: 'text',
+      value: `Critique how well the second image matches the first`,
+    },
+    { type: 'image', value: image },
+    { type: 'image', value: canvas },
+  ],
+}])
+
+// audio input requires GPU
+const audioBuffer = await captureMicrophoneInput({ seconds: 10 });
 const userResponse = await session.prompt([
   {
     role: "user",
@@ -231,6 +320,217 @@ const userResponse = await session.prompt([
       { type: "audio", value: audioBuffer },
     ],
   }
+]);
+```
+
+```javascript
+const session = await LanguageModel.create({
+  ...options,
+  initialPrompts: [
+    { role: 'system', content: 'You are an art critic' },
+  ]
+});
+
+fileUpload.onchange = async () => {
+  await session.append([{
+    role: 'user',
+    content: [
+      {
+        type: 'text',
+        value: `Here's one painting. Notes: ${notes.value}`,
+      },
+      { type: 'image', value: fileUpload.files[0] },
+    ],
+  }]);
+};
+
+analyzeButton.onclick = async () => {
+  result.textContent = await session.prompt(question.value);
+};
+```
+
+````
+
+---
+layout: default
+---
+
+# Prompt API
+### Sampling
+
+<div class="grid grid-cols-3 gap-6">
+<div>
+
+**Web**
+
+- nessun parametro di sampling
+- effetto diverso su modelli diversi
+
+```javascript
+// no sampling parameters
+const session =
+  await LanguageModel.create();
+```
+
+</div>
+<div v-click>
+
+**Web + Origin Trial**
+
+- `samplingMode`: 7 valori
+- da `most-predictable` a `most-creative`
+
+```javascript
+const session =
+  await LanguageModel.create({
+    samplingMode: 'creative',
+  });
+
+session.samplingMode;
+// 'creative'
+```
+
+</div>
+<div v-click>
+
+**Chrome Extensions**
+
+- `temperature` + `topK`
+- entrambi o nessuno
+
+```javascript
+await LanguageModel.params();
+// { defaultTopK: 3, maxTopK: 128,
+//   defaultTemperature: 1,
+//   maxTemperature: 2 }
+
+const session =
+  await LanguageModel.create({
+    temperature: 1.2, topK: 3,
+  });
+```
+
+</div>
+</div>
+
+---
+layout: default
+---
+
+# Prompt API
+### Structured Output
+
+````md magic-move
+
+```javascript
+const session = await LanguageModel.create({
+  ...options,
+  initialPrompts: [
+    { role: 'system', content: 'You are an art critic. Answer just yes or no to my prompt' }
+  ]
+});
+```
+
+```javascript
+const session = await LanguageModel.create({
+  ...options,
+  initialPrompts: [
+    { role: 'system', content: 'You are an art critic. Answer just yes or no to my prompt' }
+  ]
+});
+
+const result = await session.prompt('Is Monet an impressionist artist?')
+// "Yes."
+```
+
+```javascript
+const schema = {
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "YesNoResponse",
+  "description": "An object that contains a yes/no answer",
+  "type": "object",
+  "properties": {
+    "answer": {
+      "type": "string",
+      "enum": ["yes", "no"],
+      "description": "Answer: yes or no"
+    }
+  },
+  "required": ["answer"],
+  "additionalProperties": false
+}
+
+const result = await session.prompt('Is Monet an impressionist artist?', {
+  responseConstraint: schema,
+});
+
+console.log(JSON.parse(result))
+// { answer: "yes" }
+```
+
+```javascript
+const schema = { /* YesNoResponse */ };
+const question = 'Is Monet an impressionist artist?';
+
+// the schema is sent to the model: it uses the context window
+const tokens = await session.measureContextUsage(question, {
+  responseConstraint: schema,
+});
+
+const result = await session.prompt(question, {
+  responseConstraint: schema,
+});
+```
+
+```javascript
+const schema = { /* YesNoResponse */ };
+
+// the schema is NOT sent: describe the format in the prompt
+const result = await session.prompt(`
+  Is Monet an impressionist artist?
+  Only output a JSON object { answer } whose value is "yes" or "no".
+`, {
+  responseConstraint: schema,
+  omitResponseConstraintInput: true,
+});
+```
+
+```javascript
+const schema = { /* YesNoResponse */ };
+
+const stream = session.promptStreaming('Is Monet an impressionist artist?', {
+  responseConstraint: schema,
+});
+
+let result = '';
+for await (const chunk of stream) {
+  result += chunk;
+}
+
+console.log(JSON.parse(result))
+// { answer: "yes" }
+```
+
+```javascript
+const result = await session.prompt('Is Monet an impressionist artist?', {
+  responseConstraint: /^(yes|no)$/,
+});
+
+console.log(result)
+// "yes"
+```
+
+```javascript
+const result = await session.prompt([
+  {
+    role: 'user',
+    content: 'Describe Monet as a TOML artist sheet',
+  },
+  {
+    role: 'assistant',
+    content: '```toml\n',
+    prefix: true,
+  },
 ]);
 ```
 
@@ -278,8 +578,8 @@ const languageModel = await LanguageModel.create({
 const s1 = await languageModel.clone();
 const s2 = await languageModel.clone();
 
-const r1 = s1.prompt('Is 1-ETF strategy a good strategy?')
-const r2 = s2.prompt('Talk me about the all-weather portfolio')
+const r1 = await s1.prompt('Is 1-ETF strategy a good strategy?')
+const r2 = await s2.prompt('Talk me about the all-weather portfolio')
 ```
 
 ```javascript
@@ -293,9 +593,9 @@ const languageModel = await LanguageModel.create({
 const s1 = await languageModel.clone();
 const s2 = await languageModel.clone();
 
-const r1 = s1.prompt('Is 1-ETF strategy a good strategy?')
-const r2 = s2.prompt('Talk me about the all-weather portfolio')
-// contextWindow - contextUsage
+const r1 = await s1.prompt('Is 1-ETF strategy a good strategy?')
+const r2 = await s2.prompt('Talk me about the all-weather portfolio')
+// contextWindowLeft = contextWindow - contextUsage
 s1.contextUsage // 2471
 s2.contextUsage // 1484
 ```
@@ -311,9 +611,9 @@ const languageModel = await LanguageModel.create({
 const s1 = await languageModel.clone();
 const s2 = await languageModel.clone();
 
-const r1 = s1.prompt('Is 1-ETF strategy a good strategy?')
-const r2 = s2.prompt('Talk me about the all-weather portfolio')
-// contextWindow - contextUsage
+const r1 = await s1.prompt('Is 1-ETF strategy a good strategy?')
+const r2 = await s2.prompt('Talk me about the all-weather portfolio')
+// contextWindowLeft = contextWindow - contextUsage
 s1.contextUsage // 2471
 s2.contextUsage // 1484
 
@@ -323,55 +623,165 @@ s2.destroy();
 
 ````
 
+<!--
+Il modello viene scaricato dalla memoria quando non ci sono sessioni attive:
+conviene tenere viva una sessione vuota, così il modello resta pronto all'uso.
+-->
+
 ---
 layout: default
 ---
 
 # Prompt API
-### Structured Output
+### Context Window
 
 ````md magic-move
 
 ```javascript
 const session = await LanguageModel.create({
-  ...options,
-   initialPrompts: [
-    { role: 'system', content: 'You are a fine-art critique. Answer just yes or no to my prompt' }
-  ]
+  initialPrompts: [{
+    role: 'system',
+    content: 'You are a helpful personal-finance assistant.'
+  }]
+});
+
+console.log(`${session.contextUsage}/${session.contextWindow}`);
+```
+
+```javascript
+const session = await LanguageModel.create({ initialPrompts });
+
+console.log(`${session.contextUsage}/${session.contextWindow}`);
+
+session.addEventListener('contextoverflow', () => {
+  // the oldest prompt/response pairs are dropped,
+  // initialPrompts are never removed
+  showWarning('Context window is full!');
 });
 ```
 
 ```javascript
-const session = await LanguageModel.create({
-  ...options,
-   initialPrompts: [
-    { role: 'system', content: 'You are a fine-art critique. Answer just yes or no to my prompt' }
-  ]
+const session = await LanguageModel.create({ initialPrompts });
+
+session.addEventListener('contextoverflow', () => {
+  // the oldest prompt/response pairs are dropped,
+  // initialPrompts are never removed
+  showWarning('Context window is full!');
 });
 
-const result = await session.prompt('Is Monet an impressionist artist ever?')
-// "Yes."
-```
-
-```javascript
-const schema = {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "YesNoResponse",
-  "description": "An object that contains a yes/no answer",
-  "type": "object",
-  "properties": {
-    "answer": {
-      "type": "string",
-      "enum": ["yes", "no"],
-      "description": "Answer: yes or no"
-    }
-  },
-  "required": ["answer"],
-  "additionalProperties": false
+try {
+  await session.prompt(veryLongPrompt);
+} catch (e) {
+  // the prompt doesn't fit even without the history
+  if (e.name === 'QuotaExceededError') {
+    console.log(e.requested, e.contextWindow);
+  }
 }
+```
 
-const result = await session.prompt('Is Monet an impressionist artist ever?', { responseConstraint: schema })
-// '{"answer": "yes"}'
+```javascript
+const session = await LanguageModel.create({ initialPrompts });
+
+// signal is accepted by create() and clone() too
+const controller = new AbortController();
+stopButton.onclick = () => controller.abort();
+
+try {
+  const stream = session.promptStreaming('Plan my monthly budget', {
+    signal: controller.signal,
+  });
+  for await (const chunk of stream) {
+    output.append(chunk);
+  }
+} catch (e) {
+  // the aborted prompt/response pair is removed from the session
+  if (e.name !== 'AbortError') throw e;
+}
 ```
 
 ````
+
+---
+layout: default
+---
+
+# Prompt API
+### Session Compacting
+
+<div class="grid grid-cols-5 gap-6 mt-2">
+<div class="col-span-2 flex flex-col gap-1 text-sm">
+  <div class="self-start px-3 py-1 rounded-full border border-dashed border-gray-400 font-mono">contextoverflow</div>
+  <div class="pl-6 opacity-50">↓</div>
+  <div class="px-3 py-2 rounded border border-gray-400/50 bg-gray-400/10">
+    <div class="font-bold">1 · Riassumi la storia</div>
+    <div class="opacity-70">Language Detector + Summarizer, un messaggio alla volta</div>
+  </div>
+  <div class="pl-6 opacity-50">↓</div>
+  <div class="px-3 py-2 rounded border border-gray-400/50 bg-gray-400/10">
+    <div class="font-bold">2 · <span class="font-mono">session.destroy()</span></div>
+    <div class="opacity-70">tieni una copia <code>fullHistory</code> per il recovery</div>
+  </div>
+  <div class="pl-6 opacity-50">↓</div>
+  <div class="px-3 py-2 rounded border border-gray-400/50 bg-gray-400/10">
+    <div class="font-bold">3 · <span class="font-mono">LanguageModel.create()</span></div>
+    <div class="opacity-70">i riassunti come <code>initialPrompts</code>: mai rimossi, ma <code>QuotaExceededError</code> se non entrano</div>
+  </div>
+</div>
+<div class="col-span-3">
+
+````md magic-move
+
+```javascript
+session.addEventListener('contextoverflow', compact);
+
+async function compact() {
+  const compacted = [];
+  for (const msg of history) {
+    // 1. summarize each message
+  }
+  // 2. destroy the old session
+  // 3. create a new one from the summaries
+}
+```
+
+```javascript
+session.addEventListener('contextoverflow', compact);
+
+async function compact() {
+  const compacted = [];
+  for (const msg of history) {
+    // using LanguageDetector with confidence ≥ 0.7, else navigator.language
+    const lang = await detectLanguage(msg.content);
+    // cache one summarizer per language
+    const summarizer = await Summarizer.create({
+      type: 'tldr', length: 'short', preference: 'speed',
+      expectedInputLanguages: [lang], outputLanguage: lang,
+    });
+    const summary = await summarizer.summarize(msg.content);
+    compacted.push({ role: msg.role, content: summary });
+  }
+  // 2. destroy the old session
+  // 3. create a new one from the summaries
+}
+```
+
+```javascript
+session.addEventListener('contextoverflow', compact);
+
+async function compact() {
+  const compacted = await summarizeHistory(history);
+
+  session.destroy();
+
+  session = await LanguageModel.create({
+    // never evicted, but they must fit the context window
+    initialPrompts: compacted,
+  });
+  session.addEventListener('contextoverflow', compact);
+}
+```
+
+````
+
+</div>
+</div>
