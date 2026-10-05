@@ -51,8 +51,7 @@ layout: default
 | **Summarizer API** | Chrome 138 | Chrome 138 |
 | **Writer API** | Developer trial | Developer trial |
 | **Rewriter API** | Developer trial | Developer trial |
-| **Prompt API** | Chrome 148 | Chrome 138 |
-| | Origin trial for sampling parameters | Chrome 148 |
+| **Prompt API** | Chrome 148 / Origin trial for sampling parameters  | Chrome 138 / Chrome 148  |
 | **Proofreader API** | Developer trial | Developer trial |
 
 ---
