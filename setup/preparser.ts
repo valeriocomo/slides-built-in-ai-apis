@@ -12,17 +12,15 @@ export default definePreparserSetup(() => {
   return [
     {
       async transformSlide(content, frontmatter) {
-        // variabile non definita: mostra tutto
-        if (!audience)
-          return content
-
         const allowed = toList(frontmatter.audienceAllowed)
         const hidden = toList(frontmatter.audienceHidden)
 
-        const isHidden = hidden.includes(audience)
+        // se audienceAllowed è definito, serve il match
         const isAllowed = allowed.length === 0
           || allowed.includes('all')
-          || allowed.includes(audience)
+          || (!!audience && allowed.includes(audience))
+
+        const isHidden = !!audience && hidden.includes(audience)
 
         if (isHidden || !isAllowed)
           frontmatter.hide = true

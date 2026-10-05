@@ -785,3 +785,11 @@ async function compact() {
 
 </div>
 </div>
+
+---
+layout: center
+audienceAllowed: devfest-lecce-2026
+---
+
+# DEMO 
+### RAG in browser
