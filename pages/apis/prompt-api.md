@@ -788,7 +788,7 @@ async function compact() {
 
 ---
 layout: center
-audienceAllowed: devfest-lecce-2026
+audienceAllowed: prompt-api
 ---
 
 # DEMO 

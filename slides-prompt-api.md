@@ -17,8 +17,14 @@ fonts:
   mono: Roboto Mono
 ---
 
+
 # Prompt API
+
+<div style="color: #4add01">
+
 ## AI nativa del browser
+
+</div>
 
 <div class="absolute bottom-10">
   <span class="font-700">

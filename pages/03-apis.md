@@ -142,12 +142,12 @@ layout: default
 
 ---
 src: ./apis/translation-api.md
-audienceHidden: devfest-lecce-2026
+audienceHidden: prompt-api
 ---
 
 ---
 src: ./apis/writing-assistance-api.md
-audienceHidden: devfest-lecce-2026
+audienceHidden: prompt-api
 ---
 
 ---
@@ -156,5 +156,5 @@ src: ./apis/prompt-api.md
 
 ---
 src: ./apis/proofreader-api.md
-audienceHidden: devfest-lecce-2026
+audienceHidden: prompt-api
 ---

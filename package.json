@@ -9,7 +9,7 @@
     "export": "slidev export",
     "show": "npm exec -c 'slidev \"slides.md\" --port 3030 --remote'",
     "show:webday2026": "npm exec -c 'slidev \"slides-webday2026.md\" --port 3030 --remote'",
-    "show:prompt-api": "SLIDEV_AUDIENCE=devfest-lecce-2026 npm exec -c 'slidev \"slides-prompt-api.md\" --port 3030 --remote'"
+    "show:prompt-api": "SLIDEV_AUDIENCE=prompt-api npm exec -c 'slidev \"slides-prompt-api.md\" --port 3030 --remote'"
   },
   "dependencies": {
     "@iconify-json/skill-icons": "^1.2.3",
