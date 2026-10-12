@@ -11,6 +11,7 @@ layout: intro-image
 image: '/images/cover-talk.png'
 pagination: true
 progress: true
+color: green
 fonts:
   sans: Roboto
   serif: Roboto Serif
