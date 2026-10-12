@@ -124,3 +124,26 @@ layout: full
   class="absolute inset-0 w-full h-full border-0"
   allow="summarizer"
 ></iframe>
+
+---
+layout: two-cols
+---
+
+# Distila
+
+::left::
+
+- Chrome extension
+
+- Features
+
+    - Summarizer
+
+    - Chat (work in progress)
+
+
+https://bit.ly/distila    
+
+::right::
+
+<img src="/images/distila.png" class="w-full h-full object-contain" />
