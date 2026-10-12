@@ -95,6 +95,7 @@ const reviewSummary = await summarizer.summarize(reviews, {
 
 ---
 layout: default
+audienceHidden: prompt-api
 ---
 
 # Altri casi d'uso
@@ -107,3 +108,19 @@ layout: default
 - supporto multilingua interattivo
 
 - supporto traduzioni
+
+---
+layout: section
+---
+
+# Altri casi d'uso
+
+---
+layout: full
+---
+
+<iframe
+  src="https://valeriocomo.dev/blog/2023-05-23-create-more-time/"
+  class="absolute inset-0 w-full h-full border-0"
+  allow="summarizer"
+></iframe>
