@@ -119,11 +119,14 @@ layout: section
 layout: full
 ---
 
-<iframe
-  src="https://valeriocomo.dev/blog/2023-05-23-create-more-time/"
-  class="absolute inset-0 w-full h-full border-0"
-  allow="summarizer"
-></iframe>
+<div class="absolute inset-0 p-4">
+  <iframe
+    src="https://valeriocomo.dev/blog/2023-05-23-create-more-time/"
+    class="w-full h-full border-0"
+    allow="summarizer"
+    @mouseleave="$event.target.blur()"
+  ></iframe>
+</div>
 
 ---
 layout: two-cols
