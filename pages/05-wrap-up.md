@@ -24,7 +24,8 @@ image: '/images/wrap-up-list.png'
 * Task AI in browser
 * Adottato da W3C
 * Standard poco diffuso
-* Meccanismi di fallback (Mediapipe LLM)
+* Meccanismi di fallback (LiteRT-LM, Transformers.js, wllama, WebLLM)
+* Polyfill
 * Language Model limitati
 
 </v-clicks>
