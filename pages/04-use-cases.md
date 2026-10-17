@@ -113,7 +113,7 @@ audienceHidden: prompt-api
 layout: section
 ---
 
-# Altri casi d'uso
+# Sperimentazioni personali
 
 ---
 layout: full
