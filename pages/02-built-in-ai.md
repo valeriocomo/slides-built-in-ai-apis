@@ -19,13 +19,13 @@ layout: quote
 
 ---
 layout: image
-image: '/images/built-in-ai-architecture.png'
+image: '/images/built-in-ai-architecture-ex.png'
 backgroundSize: contain
 ---
 
 ---
 layout: image-left
-image: '/images/built-in-ai-architecture.png'
+image: '/images/built-in-ai-architecture-ex.png'
 backgroundSize: contain
 ---
 
@@ -48,7 +48,7 @@ backgroundSize: contain
 
 ---
 layout: image-left
-image: '/images/built-in-ai-architecture.png'
+image: '/images/built-in-ai-architecture-ex.png'
 backgroundSize: contain
 transition: none
 ---
