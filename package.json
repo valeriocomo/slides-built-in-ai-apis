@@ -2,7 +2,7 @@
   "name": "slides-built-in-ai-apis",
   "type": "module",
   "private": true,
-  "version": "0.2.1",
+  "version": "0.3.0",
   "scripts": {
     "build": "slidev build",
     "dev": "slidev --open",
